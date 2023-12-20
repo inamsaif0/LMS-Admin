@@ -34,6 +34,7 @@ import { useRouter } from 'next/router'
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import Cookies from 'js-cookie';
 
 const drawerWidth = 240;
@@ -163,8 +164,7 @@ export default function MiniDrawer() {
   }
   const handleCollapeOpento = async () => {
     if (opencol == false){
-      const role = await AsyncStorage.getItem('userRole');
-      console.log(role)
+     
     setOpencol(true);
   }
   
@@ -346,7 +346,7 @@ export default function MiniDrawer() {
                 }}
               >
 
-                <PeopleOutlinedIcon sx={{ color: '#5c0931' }} />
+                <SchoolOutlinedIcon sx={{ color: '#5c0931' }} />
 
               </ListItemIcon>
               <ListItemText primary="Teachers" sx={{ opacity: open ? 1 : 0 }} />
@@ -362,7 +362,7 @@ export default function MiniDrawer() {
                   <ListItemText primary="Teacher List" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4 }} href='/users/createUser'>
+                <ListItemButton sx={{ pl: 4 }} href='/teachers/createTeacher'>
                   <ListItemIcon>
                     <GroupAddIcon sx={{ color: '#5c0931' }} />
                   </ListItemIcon>

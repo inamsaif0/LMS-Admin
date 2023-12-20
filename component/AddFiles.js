@@ -28,7 +28,7 @@ function getStyles(name, personName, theme) {
                 : theme.typography.fontWeightMedium,
     };
 }
-const CreateUserForm = (props) => {
+const CreateUserForm = async (props) => {
     const router = useRouter();
     //STYLING
     const [inputvalue, setInputvalue] = React.useState(null)
@@ -50,28 +50,28 @@ const CreateUserForm = (props) => {
     }
     const AddingFiles = async () => {}
 
-    //     const response = await axios.post('http://localhost:3000/api/content', {
-    //         teacher: teacher.teacher,
-    //         student: student.student,
-    //         level: level.level,
-    //         date: date,
-    //     })
-    //     console.log(response)
-    //     if (response.data.success) {
-    //         console.log(response)
-    //         router.replace('/content/contentList')
-    //     }
-    //     else setError(true)
+        const response = await axios.post('http://localhost:3000/api/content', {
+            teacher: teacher.teacher,
+            student: student.student,
+            level: level.level,
+            date: date,
+        })
+        console.log(response)
+        if (response.data.success) {
+            console.log(response)
+            router.replace('/content/contentList')
+        }
+        else setError(true)
 
-    //         router.prefetch('/content/contentList')
+            router.prefetch('/content/contentList')
         
-    // }
+    }
 
-    // useEffect(() => {
-    //     fetch('http://localhost:3000/api/content')
-    //         .then((response) => response.json())
-    //         .then((data) => setValue(data))
-    // }, []);
+    useEffect(() => {
+        fetch('http://localhost:3000/api/content')
+            .then((response) => response.json())
+            .then((data) => setValue(data))
+    }, []);
 
 
     const defaultProps = {
@@ -174,7 +174,7 @@ const CreateUserForm = (props) => {
             </Paper >
         </Grid >
     )
-}
+
 
 
 export default CreateUserForm;

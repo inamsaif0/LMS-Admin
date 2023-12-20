@@ -1,5 +1,6 @@
 import connect from "../../../lib/mongodb";
-import User from '../../../model/schema';
+// import User from '../../../model/schema';
+import Teachers from '../../../model/teachers'
 
 // connect();
 
@@ -40,6 +41,7 @@ import User from '../../../model/schema';
 import { pbkdf2Sync } from 'crypto';
 import jwt from 'jsonwebtoken';
 import { setCookie } from 'cookies-next'
+import Teacher from "../teachers";
 
 export default async function AdminAuth(req,res){
     if(req.method === 'POST'){
@@ -48,14 +50,14 @@ export default async function AdminAuth(req,res){
         const { email , password } = req.body;
         // const hashPassword = pbkdf2Sync(password,'f844b09ff50c',1000,64,'sha256').toString('hex')
 
-        const result = await User.findOne({
+        const result = await Teachers.findOne({
             $and : [
                 {
                     email : email
                 },
                 {
                     password : password
-                }
+                },
             ]
         })
         console.log(result)

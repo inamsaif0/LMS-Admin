@@ -8,12 +8,17 @@ import { redirect } from 'next/dist/server/api-utils';
 import axios from 'axios'
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+
+
 
 const Login = ({ handleChange }) => {
 
     //STYLING
     const router = useRouter();
     const [Datas, setDatas] = useState([]);
+    const [error,setError] = useState(false)
+
    
     // console.log('Data:', Datas);
     const paperStyle = { padding: 20, height: 'auto', width: 300, margin: "0 auto", marginTop:'5rem', borderRadius:'15px 15px 15px 15px' }
@@ -42,18 +47,21 @@ const Login = ({ handleChange }) => {
 
     }
     // const router = useRouter()
-    const [error,setError] = useState(false)
     const login = async (values, props) => {
         const response = await axios.post('http://localhost:3000/api/login/login',{
             email :  values.username,
             password: values.password
         })
         console.log(response)
+ 
+        
         if(response.data.success) {
-            console.log(response)
+            Cookies.set('userRole', response.data.data.role, { expires: 1 });
+            console.log(response.data.data.role)
             router.replace('/Dashboard')
         } 
-        else{
+        else if(!response.data.success){
+            console.log(response.data.success)
             setError(true)
         } 
     }
@@ -90,12 +98,14 @@ const Login = ({ handleChange }) => {
                                 }
                                 label="Remember me"
                             />
+                           
                             <Button type='submit' variant="contained" disabled={props.isSubmitting}
-                                style={btnstyle} fullWidth  onClick = {login}>{props.isSubmitting ? "Loading" : "Log in"}  </Button>
+                                style={btnstyle} fullWidth>{props.isSubmitting ? "Loading" : "Log in"}  </Button>
                         </Stack>
                         </Form>
                     )}
                 </Formik>
+                {error?<p style={{color:"red"}}>please enter the correct credentials</p>:null}
             </Paper>
         </Grid>
     )

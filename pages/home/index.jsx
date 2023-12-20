@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -34,9 +34,9 @@ import { useRouter } from 'next/router'
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import Cookies from 'js-cookie';
 
 const drawerWidth = 240;
-
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -127,20 +127,49 @@ export default function MiniDrawer() {
   const router = useRouter()
 
   const [open, setOpen] = React.useState(false);
+  const [opencol, setOpencol] = React.useState(false);
   const [colopen, setColopen] = React.useState(false);
   const [col, setCol] = React.useState(false);
+  const [userRole, setUserRole] = useState(null);
 
 
   const [iopen, setiOpen] = React.useState(true);
+
+  useEffect(() => {
+    // Load user role from AsyncStorage when the component mounts
+    loadUserRole();
+  }, []);
+  
+  const loadUserRole = async () => {
+    try {
+      const role = Cookies.get('userRole');
+      setUserRole(role);
+      console.log(role)
+    } catch (error) {
+      console.error('Error loading user role:', error);
+    }
+  };
+  
   const handleClick = () => {
     setiOpen(!iopen);
 
   };
+
   const handleCollapeOpen = () => {
     if (colopen == false)
       setColopen(true);
     else
       setColopen(false)
+  }
+  const handleCollapeOpento = async () => {
+    if (opencol == false){
+      const role = await AsyncStorage.getItem('userRole');
+      console.log(role)
+    setOpencol(true);
+  }
+  
+    else{
+    setOpencol(false)}
   }
   const handleOtherCollapeOpen = () => {
     if (col == false)
@@ -148,6 +177,7 @@ export default function MiniDrawer() {
     else
       setCol(false)
   }
+
   const handleDrawerOpen = () => {
     if (open == false)
       setOpen(true);
@@ -258,7 +288,7 @@ export default function MiniDrawer() {
               >
 
                 <PeopleOutlinedIcon sx={{ color: '#5c0931' }} />
-                
+
               </ListItemIcon>
               <ListItemText primary="Users" sx={{ opacity: open ? 1 : 0 }} />
 
@@ -275,7 +305,7 @@ export default function MiniDrawer() {
 
                 <ListItemButton sx={{ pl: 4 }} href='/users/createUser'>
                   <ListItemIcon>
-                  <GroupAddIcon sx={{color: '#5c0931'}} />
+                    <GroupAddIcon sx={{ color: '#5c0931' }} />
                   </ListItemIcon>
                   <ListItemText primary="Create User" />
                 </ListItemButton>
@@ -285,8 +315,69 @@ export default function MiniDrawer() {
           </ListItem>
 
         </List>
+        {/* <h1</h1> */}
         <Divider />
 
+        {userRole === 'admin' ? (
+<>
+        <List
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+            </ListSubheader>
+
+          }
+        >
+
+          <ListItem key="Teachers" disablePadding sx={{ display: 'block' }} >
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+              onClick={handleCollapeOpento}
+            >
+              <ListItemIcon
+                onClick={handleDrawerOpen}
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+
+                <PeopleOutlinedIcon sx={{ color: '#5c0931' }} />
+
+              </ListItemIcon>
+              <ListItemText primary="Teachers" sx={{ opacity: open ? 1 : 0 }} />
+
+            </ListItemButton>
+            <Collapse in={opencol} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+
+                <ListItemButton sx={{ pl: 4 }} href='/users/userList'>
+                  <ListItemIcon>
+                    <ClearAllOutlinedIcon sx={{ color: '#5c0931' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Teacher List" />
+                </ListItemButton>
+
+                <ListItemButton sx={{ pl: 4 }} href='/users/createUser'>
+                  <ListItemIcon>
+                    <GroupAddIcon sx={{ color: '#5c0931' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Create Teacher" />
+                </ListItemButton>
+
+              </List>
+            </Collapse>
+          </ListItem>
+
+        </List>
+        <Divider />
+        </>
+        ) : null}
+        
         <List
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">

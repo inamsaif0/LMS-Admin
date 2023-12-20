@@ -47,10 +47,16 @@ const CreateUserForm = (props) => {
     }
     //VALIDATION 
     const validationSchema = Yup.object().shape({
-        name: Yup.string(),
-        email: Yup.string().email('Invalid email'),
-        password: Yup.string(),
-        level: Yup.string(),
+      name: Yup.string()
+        .matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces')
+        .required('Name is required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+      password: Yup.string()
+        .min(8, 'Password must be at least 8 characters long')
+        .required('Password is required'),
+    level: Yup.string(),
     });
     //FUNCTION TO LOGIN
     const formdata = {
@@ -65,15 +71,15 @@ const CreateUserForm = (props) => {
         router.push('/users/userList');
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (values) => {
 
 
         const response = await axios.post('http://localhost:3000/api/userList', {
-            studentName: name,
-            studentId: email,
-            password: password,
-            level: level,
-            status: true,
+          studentName: values.name,
+          studentId: values.email,
+          password: values.password,
+          level: values.level,
+          status: true,
         })
         console.log(response)
         if (response.data?.exists === true) {
@@ -107,86 +113,81 @@ const CreateUserForm = (props) => {
     };
     return (
         <Grid container lg={12} sm={8} md={10}>
-            <Paper style={paperStyle}>
-                <Grid align="center" item>
-                    <h2 style={{ color: '#5c0931' }}>Create User</h2>
-                </Grid>
-                <Grid item>
-                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-                        {({ isSubmitting, isValid }) => (
-                            <Form>
-                                <Stack gap="1rem">
-                                    <Field
-                                        style={{ borderColor: '#5c0931' }}
-                                        as={TextField}
-                                        label="Name"
-                                        name="name"
-                                        placeholder="Enter Name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        fullWidth
-                                        required
-                                        helperText={<ErrorMessage name="name" />}
-                                    />
-                                    <Field
-                                        as={TextField}
-                                        label="Email"
-                                        name="email"
-                                        placeholder="Enter email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        fullWidth
-                                        required
-                                        helperText={<ErrorMessage name="email" />}
-                                    />
-                                    <Field
-                                        as={TextField}
-                                        label="Password"
-                                        name="password"
-                                        placeholder="Enter password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        fullWidth
-                                        required
-                                        helperText={<ErrorMessage name="password" />}
-                                    />
-                                                                        <label htmlFor="level">Level</label>
-
-                                    {/* <Field as={Select} name="level" value={level} onChange={(event, newValue) => { setLevel(newValue); }} inputValue={inputvalue} onInputChange={(event, newInputValue) => { setInputvalue(newInputValue); }} getOptionLabel={(option) => option && option.level} renderInput={(params) => <TextField {...params} placeholder='Level' required helperText={<ErrorMessage name="level" />} />} fullWidth  ></Field> */}
-                                    <Field
-                                        as={Select}
-                                        name="level"
-                                        label="Level"
-                                        placeholder="Level"
-                                        required
-                                        onChange={(e) => setLevel(e.target.value)}
-                                        value={level}
-                                        fullWidth
-                                        
-                                    >
-                                        {value.map((levelOption, index) => (
-                                            <MenuItem key={index} value={levelOption.level}>
-                                                {levelOption.level}
-                                            </MenuItem>
-                                        ))}
-                                    </Field>
-                                    {
-                                        exists&&<p style={{color:'red'}}>User Alredy Exists</p>
-                                    }
-                                    <Button type="submit" style={{ backgroundColor: '#5c0931', color: 'white' }} color="primary" variant="contained" disabled={isSubmitting} fullWidth>
-                                        {isSubmitting ? 'Loading' : 'Create User'}
-                                    </Button>
-                                    <Button variant="outlined" color="primary" fullWidth onClick={handleCancel}>
-                                        Cancel
-                                    </Button>
-                                </Stack>
-                            </Form>
-                        )}
-                    </Formik>
-                </Grid>
-            </Paper>
-        </Grid>
+        <Paper style={paperStyle}>
+          <Grid align="center" item>
+            <h2 style={{ color: '#5c0931' }}>Create User</h2>
+          </Grid>
+          <Grid item>
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+              {({ isSubmitting, values, handleChange }) => (
+                <Form>
+                  <Stack gap="1rem">
+                    <Field
+                      as={TextField}
+                      label="Name"
+                      name="name"
+                      placeholder="Enter Name"
+                      fullWidth
+                      required
+                      value={values.name}
+                      onChange={handleChange}
+                      helperText={<ErrorMessage name="name" />}
+                    />
+                    <Field
+                      as={TextField}
+                      label="Email"
+                      name="email"
+                      placeholder="Enter email"
+                      fullWidth
+                      required
+                      value={values.email}
+                      onChange={handleChange}
+                      helperText={<ErrorMessage name="email" />}
+                    />
+                    <Field
+                      as={TextField}
+                      label="Password"
+                      name="password"
+                      placeholder="Enter password"
+                      type="password"
+                      fullWidth
+                      required
+                      value={values.password}
+                      onChange={handleChange}
+                      helperText={<ErrorMessage name="password" />}
+                    />
+                    <Field
+                      as={Select}
+                      name="level"
+                      label="Level"
+                      placeholder="Level"
+                      required
+                      fullWidth
+                      value={values.level}
+                      onChange={handleChange}
+                      helperText={<ErrorMessage name="level" />}
+                    >
+                      {value.map((levelOption, index) => (
+                        <MenuItem key={index} value={levelOption.level}>
+                          {levelOption.level}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                    {exists && <p style={{ color: 'red' }}>User Already Exists</p>}
+                    <Button type="submit" style={{ backgroundColor: '#5c0931', color: 'white' }} color="primary" variant="contained" disabled={isSubmitting} fullWidth>
+                      {isSubmitting ? 'Loading' : 'Create User'}
+                    </Button>
+                    <Button variant="outlined" color="primary" fullWidth onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                  </Stack>
+                </Form>
+              )}
+            </Formik>
+          </Grid>
+        </Paper>
+      </Grid>
+  
     )
 
 }

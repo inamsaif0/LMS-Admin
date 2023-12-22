@@ -3,18 +3,18 @@ import Teachers from '../../../model/teachers';
 
 connect();
 
-const userLists = async (req, res) => {
+const teacherLists = async (req, res) => {
 
             try{
                 const list = await Teachers.findOne({ email: req.body.email });
                 res.json({success: true, data: list})
 
             } catch(error){
-                res.status(400).json({success: false})
+                res.status(400).json({ success: false })
             }
             
             
     }
 
 
-export default userLists;
+export default teacherLists;

@@ -1,135 +1,208 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, Paper, TextField, Button, Typography, Stack, Autocomplete } from '@mui/material';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React from 'react'
+import { Grid, Paper, Avatar, TextField, Button, Typography, Link, Stack, Autocomplete } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox';
+import { FormControlLabel } from '@mui/material';
+import { useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
+import { redirect } from 'next/dist/server/api-utils';
 import axios from 'axios';
+// import Select from '../component/Select';
 import { useRouter } from 'next/router';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
-const EditTeacher = (props) => {
-  const router = useRouter();
-  const [credentials, setCredentials] = useState({});
-  const [levels, setLevels] = useState([]);
+const editTeacherForm = (props) => {
+    //STYLING
+    const router = useRouter();
+    const [password, setPassword] = React.useState('')
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('')
+    const [level, setLevel] = React.useState(null);
+    const [age, setAge] = React.useState('');
+    const [error, setError] = React.useState(false);
+    const [value, setValue] = React.useState('');
+    const [inputvalue, setInputvalue] = React.useState('')
+    const [credentials, setCredentials] = React.useState({});
 
-  useEffect(() => {
-    getCreds();
-    getLevels();
-  }, []);
 
-  const getCreds = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/api/getTeacherCredentials', {
-        email: props.email,
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+
+    // const [Datas, setDatas] = useState([]);
+
+    // console.log('Data:', Datas);
+    const paperStyle = { padding: 20, height: 'auto', width: 400, margin: "0 auto", marginTop: '5rem', borderRadius: '15px 15px 15px 15px' }
+    const avatarStyle = { backgroundColor: '#1bbd7e' }
+    const btnstyle = { margin: '8px 0', background: '#5c0931', color: 'white' }
+    //STATE
+    const initialValues = {
+        name: '',
+        email: '',
+        password: '',
+        level: ''
+    }
+    //VALIDATION 
+    const validationSchema = Yup.object().shape({
+        name: Yup.string()
+          .matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces')
+          .required('Name is required'),
+        email: Yup.string()
+          .email('Invalid email address')
+          .required('Email is required'),
+        password: Yup.string()
+          .min(8, 'Password must be at least 8 characters long')
+          .required('Password is required'),
+      level: Yup.string(),
       });
-      setCredentials(response.data.data);
-    } catch (error) {
-      console.error('Error fetching teacher credentials:', error);
+    //FUNCTION TO LOGIN
+
+    const updateUser = async () => {
+        if (validationSchema) {
+            const response = await axios.put('http://localhost:3000/api/teachers', {
+                _id: credentials._id,
+                teahcerName: credentials.teacherName,
+                email: credentials.email,
+                password: credentials.password,
+                // level: credentials.level,
+                // status: true
+            })
+            console.log(response)
+            if (response.data.success) {
+                console.log(response)
+                router.replace('/users/userList')
+            }
+            else setError(true)
+
+        }
     }
-  };
+    // useEffect(() => {
+    //     fetch('http://localhost:3000/api/userList')
+    //         .then((response) => response.json())
+    //         .then((data) => setValue(data))
+    // }, []);
+    useEffect(() => {
+        getCreds();
 
-  const getLevels = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/api/levels');
-      setLevels(response.data.data);
-    } catch (error) {
-      console.error('Error fetching levels:', error);
+    }, []);
+    async function getCreds() {
+
+        console.log(props.email + " Props email")
+        await fetch('http://localhost:3000/api/getCredentials/getTeacher', {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: 'POST',
+            body: JSON.stringify({ studentId: props.email })
+        })
+            .then((response) => response.json())
+            .then((res) => setCredentials(res.data))
     }
-  };
 
-  const updateUser = async () => {
-    try {
-      const response = await axios.put('http://localhost:3000/api/editTeacher', {
-        _id: credentials._id,
-        name: credentials.name,
-        email: credentials.email,
-        password: credentials.password,
-      });
+    // useEffect(() => {
+    //     async function getLevels() {
 
-      if (response.data.success) {
-        console.log(response);
-        router.replace('/teachers/teacherList');
-      } else {
-        console.error('Error updating teacher:', response.data.error);
-      }
-    } catch (error) {
-      console.error('Error updating teacher:', error);
-    }
-  };
+    //         await fetch('http://localhost:3000/api/levels')
+    //             .then((response) => response.json())
+    //             .then((data) => setValue(data))
+    //     }
+    //     // getCreds();   
+    //     getLevels();
 
-  const initialValues = {
-    name: credentials.name || '',
-    email: credentials.email || '',
-    password: credentials.password || '',
-  };
+    // }, []);
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces').required('Name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    password: Yup.string().min(8, 'Password must be at least 8 characters long').required('Password is required'),
-  });
 
-  return (
-    <>
-      {credentials && (
-        <Grid container lg="12" sm="8" md="10" shrink={false}>
-          <Paper style={{ padding: 20, height: 'auto', width: 400, margin: '0 auto', marginTop: '5rem', borderRadius: '15px 15px 15px 15px' }}>
-            <Grid align="center" item>
-              <h2 style={{ color: '#5c0931' }}>{props.title}</h2>
-            </Grid>
-            <Grid item>
-              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={updateUser}>
-                {() => (
-                  <Form>
-                    <Stack gap="1rem">
-                      <Field
-                        autoComplete="off"
-                        as={TextField}
-                        label="Name"
-                        name="name"
-                        placeholder="Enter Name"
-                        fullWidth
-                        required
-                        value={credentials.name}
-                        onChange={(e) => setCredentials((prev) => ({ ...prev, name: e.target.value }))}
-                        helperText={<ErrorMessage name="name" />}
-                      />
-                      <Field
-                        autoComplete="off"
-                        as={TextField}
-                        label="Email"
-                        name="email"
-                        placeholder="Enter email"
-                        fullWidth
-                        required
-                        value={credentials.email}
-                        onChange={(e) => setCredentials((prev) => ({ ...prev, email: e.target.value }))}
-                        helperText={<ErrorMessage name="email" />}
-                      />
-                      <Field
-                        autoComplete="off"
-                        as={TextField}
-                        label="Password"
-                        name="password"
-                        placeholder="Enter password"
-                        type="password"
-                        fullWidth
-                        required
-                        value={credentials.password}
-                        onChange={(e) => setCredentials((prev) => ({ ...prev, password: e.target.value }))}
-                        helperText={<ErrorMessage name="password" />}
-                      />
-                      <Button type="submit" color="primary" variant="contained" style={{ margin: '8px 0', background: '#5c0931', color: 'white' }}>
-                        Edit Teacher
-                      </Button>
-                    </Stack>
-                  </Form>
-                )}
-              </Formik>
-            </Grid>
-          </Paper>
-        </Grid>
-      )}
-    </>
-  );
-};
+    // const defaultProps = {
+    //     options: value.data,
+    //     getOptionLabel: (option) => option.level,
+    // };
+    return (
+        <>
+            {credentials && <Grid container lg='12' sm='8' md="10" shrink={false}>
+                <Paper style={paperStyle}>
+                    <Grid align='center' item>
+                        <h2 style={{ color: '#5c0931' }}>{props.title}</h2>
+                    </Grid>
+                    <Grid item>
+                        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={updateUser}>
+                            {({ props, errors, touched }) => (
+                                <Form >
+                                    <Stack gap="1rem">
 
-export default EditTeacher;
+                                        <Field autoComplete='off' as={TextField} label='Name' name="name"
+                                            placeholder='Enter Name' fullWidth required value={credentials.studentName}
+                                            onChange={(e) => {
+                                                setCredentials((prev) => ({
+                                                    ...prev,
+                                                    studentName: e.target.value
+                                                }));
+                                            }}
+                                            helperText={<ErrorMessage name="name" />} >
+                                            {/* {errors.firstName && touched.firstName ? (
+                                                <div>{errors.firstName}</div>
+                                            ) : null} */}
+                                        </Field>
+                                        <Field autoComplete='off' as={TextField} label='Email' name="email"
+                                            placeholder='Enter email' fullWidth required value={credentials.studentId}
+                                            onChange={(e) => {
+                                                setCredentials((prev) => ({
+                                                    ...prev,
+                                                    studentId: e.target.value
+                                                }));
+                                            }}
+
+                                            helperText={<ErrorMessage name="email" />}
+                                        >
+                                            {/* {errors.firstName && touched.firstName ? (
+                                            <div>{errors.firstName}</div>
+                                        // ) : null */}
+                                        </Field>
+
+                                        <Field autoComplete='off' as={TextField} label='Password' name="password"
+                                            placeholder='Enter password' type='password' fullWidth required value={credentials.password}
+                                            onChange={(e) => {
+                                                setCredentials((prev) => ({
+                                                    ...prev,
+                                                    password: e.target.value
+                                                }));
+                                            }}
+
+                                            helperText={<ErrorMessage name="password" />} >{errors.password && touched.password ? (
+                                                <div>{errors.password}</div>
+                                            ) : null}</Field>
+
+                                        {/* {value && value.data && credentials.level && <Autocomplete
+                                            label="level"
+                                            name="level"
+                                            options={value.data?.map(option => option.level)}
+                                            value={credentials.level}
+                                            onChange={(e, newValue) => {
+                                                setCredentials((prev) => ({
+                                                    ...prev,
+                                                    level: newValue || '' // Set the selected value or an empty string if newValue is null or undefined
+                                                }));
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField className="autoCompleteTxt" {...params} label="Level" />
+                                            )}
+                                        />
+                                        } */}
+
+                                        <Button type='submit' color='primary' variant="contained"
+                                            style={btnstyle} >Edit User</Button>
+                                    </Stack>
+                                </Form>
+                            )}
+                        </Formik>
+                    </Grid>
+                </Paper>
+            </Grid >}
+        </>
+    )
+
+}
+
+export default editTeacherForm

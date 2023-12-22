@@ -198,7 +198,7 @@ import { useEffect } from 'react';
 import Link from 'next/link'
 // import Button from '@mui/material-next/Button';
 
-export default function ContentTable() {
+export default function teacherTables() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [active, setActive] = React.useState('active')
@@ -226,7 +226,7 @@ export default function ContentTable() {
   useEffect(() => {
    async function getData(){
       
-      await fetch('http://localhost:3000/api/content')
+      await fetch('http://localhost:3000/api/teachers')
       .then((response) => response.json())
       .then((data) => setValue(data))
     }
@@ -251,12 +251,12 @@ export default function ContentTable() {
           <Table sx={{ minWidth: { lg: 900, md: 700, sm: 300 } }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell><b>Student No</b></TableCell>
+                <TableCell><b>Teacher No</b></TableCell>
                 <TableCell align='left'><b>Teacher Name</b></TableCell>
                 <TableCell align="left"><b>Email</b></TableCell>
-                <TableCell align="left"><b></b></TableCell>
-                <TableCell align="left"><b>Teacher</b></TableCell>
-                <TableCell align="left"><b>Level</b></TableCell>
+                {/* <TableCell align="left"><b></b></TableCell> */}
+                <TableCell align="left"><b>Role</b></TableCell>
+                {/* <TableCell align="left"><b>Level</b></TableCell> */}
                 <TableCell align="center"><b>Date</b></TableCell>
               </TableRow>
             </TableHead>
@@ -276,15 +276,15 @@ export default function ContentTable() {
                     </TableCell>
                     <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                       <a style={{color:'#5c0931'}} href={curElem.fileUrl}>
-                        {curElem.filename}
+                        {curElem.name}
                       </a>
                     </TableCell>
-                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.filename.substr(curElem.filename.lastIndexOf('.') + 1)}</TableCell>
-                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.student}</TableCell>
-                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.teacher}</TableCell>
-                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>
+                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.email}</TableCell>
+                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>teacher</TableCell>
+                    {/* <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.teacher}</TableCell> */}
+                    {/* <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                       {curElem.level}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                       {curElem.date.substring(0, 10)}
                     </TableCell>

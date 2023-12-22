@@ -46,22 +46,22 @@ const EditUser = (props) => {
         level: ''
     }
     //VALIDATION 
-    const validationSchema = Yup.object().shape({
-        name: Yup.string()
-          .matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces')
-          .required('Name is required'),
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Email is required'),
-        password: Yup.string()
-          .min(8, 'Password must be at least 8 characters long')
-          .required('Password is required'),
-      level: Yup.string(),
-      });
+    // const validationSchema = Yup.object().shape({
+    //     name: Yup.string()
+    //       .matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces')
+    //       .required('Name is required'),
+    //     email: Yup.string()
+    //       .email('Invalid email address')
+    //       .required('Email is required'),
+    //     password: Yup.string()
+    //       .min(8, 'Password must be at least 8 characters long')
+    //       .required('Password is required'),
+    //   level: Yup.string(),
+    //   });
     //FUNCTION TO LOGIN
 
     const updateUser = async () => {
-        if (validationSchema) {
+        // if (validationSchema) {
             const response = await axios.put('http://localhost:3000/api/userList', {
                 _id: credentials._id,
                 studentName: credentials.studentName,
@@ -77,7 +77,7 @@ const EditUser = (props) => {
             }
             else setError(true)
 
-        }
+        // }
     }
     // useEffect(() => {
     //     fetch('http://localhost:3000/api/userList')
@@ -127,7 +127,7 @@ const EditUser = (props) => {
                         <h2 style={{ color: '#5c0931' }}>{props.title}</h2>
                     </Grid>
                     <Grid item>
-                        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={updateUser}>
+                        <Formik initialValues={initialValues}  onSubmit={updateUser}>
                             {({ props, errors, touched }) => (
                                 <Form >
                                     <Stack gap="1rem">

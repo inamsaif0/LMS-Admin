@@ -57,4 +57,4 @@ const UserListOps = async (req, res) => {
       
 }
 
-export default userList;
+export default UserListOps;

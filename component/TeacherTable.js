@@ -22,7 +22,7 @@ export default function BasicTable() {
   const router = useRouter()
 
   const handleEdit = (additionalProp) => {
-    router.push(`/users/editPage?additionalProp=${additionalProp}`);
+    router.push(`/teachers/editTeacher?additionalProp=${additionalProp}`);
   }
 
   const [page, setPage] = React.useState(0);
@@ -40,7 +40,7 @@ export default function BasicTable() {
   };
  
   async function getData() {
-    await fetch('http://localhost:3000/api/userList')
+    await fetch('http://localhost:3000/api/teachers')
       .then((response) => response.json())
       .then((data) => setValue(data))
   }
@@ -73,11 +73,11 @@ export default function BasicTable() {
           <Table aria-label="simple table" stickyHeader={true}>
             <TableHead>
               <TableRow>
-                <TableCell><b>Student No.</b></TableCell>
-                <TableCell align='left'><b>Student Name</b></TableCell>
-                <TableCell align="left"><b>StudentID&nbsp;(email)</b></TableCell>
-                <TableCell align="left"><b>Level</b></TableCell>
-                <TableCell align="center"><b>Status</b></TableCell>
+                <TableCell><b>Teacher No.</b></TableCell>
+                <TableCell align='left'><b>Teacher Name</b></TableCell>
+                <TableCell align="left"><b>TeacherID&nbsp;(email)</b></TableCell>
+                <TableCell align="left"><b>Role</b></TableCell>
+                {/* <TableCell align="center"><b>Status</b></TableCell> */}
                 <TableCell align="center"><b>Options</b></TableCell>
               </TableRow>
             </TableHead>
@@ -91,17 +91,17 @@ export default function BasicTable() {
                       <TableCell component="th" scope="curElement" align='center'>
                         {rowIndex}
                       </TableCell>
-                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.studentName}</TableCell>
-                      <TableCell align="left" sx={{ fontFamily: 'inherit' }}>{curElem.studentId}</TableCell>
-                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.level}</TableCell>
-                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>
+                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.teacherName}</TableCell>
+                      <TableCell align="left" sx={{ fontFamily: 'inherit' }}>{curElem.email}</TableCell>
+                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>{curElem.role}</TableCell>
+                      {/* <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                         <Button disabled={false} variant="outlined" style={{ color: "#5c0931", borderColor: "#5c0931" }} onClick={() => handleActive(index)}>
                           {curElem.status ? "Active" : "Inactive"}
                         </Button>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                         <Stack flexDirection='row'>
-                          <Button onClick={() => handleEdit(curElem.studentId)}>
+                          <Button onClick={() => handleEdit(curElem.email)}>
                             <EditIcon sx={{ color: '#5c0931' }} />
                           </Button>
                         </Stack>

@@ -4,7 +4,7 @@ import Teachers from '../../../model/teachers';
 
 connect();
 
-const TeacherListOtp = async (req, res) => {
+const TeacherListOps = async (req, res) => {
     const { query: { id }, method } = req;
 
     switch (method) {
@@ -12,7 +12,7 @@ const TeacherListOtp = async (req, res) => {
             try {
                 const list = await Teachers.findbyId(id);
                 if(!list){
-                    res.status(400).json({ success: false })
+                    res.status(400).json({ success: false})
 
                 }
                 res.status(200).json({ success: true, data: list })
@@ -28,7 +28,7 @@ const TeacherListOtp = async (req, res) => {
                     runValidators: true
                 });
                 if (!updateList) {
-                    return res.status(400).json({ success: false });
+                    return res.status(400).json({ success: false, data:'dddd' });
                 }
                 res.status(200).json({ success: true, data: updateList });
             } catch (error) {
@@ -57,4 +57,4 @@ const TeacherListOtp = async (req, res) => {
       
 }
 
-export default Teachers;
+export default TeacherListOps;

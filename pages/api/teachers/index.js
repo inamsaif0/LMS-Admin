@@ -31,31 +31,39 @@ const Teacher = async (req, res) => {
 
         case 'POST':
             try {
-                console.log(req.body)
-                const list = await Teachers.create({
+                const existingUser = await Teachers.findOne({ email: req.body.email });
+            
+                if (existingUser) {
+                    // User with the provided email already exists
+                    return res.status(409).json({ success: false, message: 'User with this email already exists.' });
+                }
+            
+                // User with the provided email doesn't exist, create a new one
+                const newUser = await Teachers.create({
                     email: req.body.email,
                     password: req.body.password,
                     teacherName: req.body.teacherName,
                     role: 'teacher'
                 });
-                res.status(201).json({ success: true, data: list})
-            }    
+            
+                res.status(201).json({ success: true, data: newUser });
+            }
             catch (error){
             
                 res.status(400).json({success:false});
             }
             break;
 
-        case 'PUT':
-                try{
-                    console.log(req.body)
-                    const list= await userList.replaceOne({studentId:req.body.studentId},req.body)
-                    res.status(200).json({success:true,data:list})
-                }
-                catch (error){
-                    res.status(400).json({success:false})
-                }
-            break;
+        // case 'PUT':
+        //         try{
+        //             console.log(req.body)
+        //             const list= await userList.replaceOne({studentId:req.body.studentId},req.body)
+        //             res.status(200).json({success:true,data:list})
+        //         }
+        //         catch (error){
+        //             res.status(400).json({success:false})
+        //         }
+        //     break;
         default: 
             res.status(400).json({success:false});
             break;

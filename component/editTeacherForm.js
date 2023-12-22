@@ -46,25 +46,25 @@ const editTeacherForm = (props) => {
         level: ''
     }
     //VALIDATION 
-    const validationSchema = Yup.object().shape({
-        name: Yup.string()
-          .matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces')
-          .required('Name is required'),
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Email is required'),
-        password: Yup.string()
-          .min(8, 'Password must be at least 8 characters long')
-          .required('Password is required'),
-      level: Yup.string(),
-      });
+    // const validationSchema = Yup.object().shape({
+    //     name: Yup.string()
+    //       .matches(/^[A-Za-z\s]+$/, 'Name must contain only alphabets and spaces')
+    //       .required('Name is required'),
+    //     email: Yup.string()
+    //       .email('Invalid email address')
+    //       .required('Email is required'),
+    //     password: Yup.string()
+    //       .min(8, 'Password must be at least 8 characters long')
+    //       .required('Password is required'),
+    //   level: Yup.string(),
+    //   });
     //FUNCTION TO LOGIN
 
     const updateUser = async () => {
-        if (validationSchema) {
+        // if (validationSchema) {
             const response = await axios.put('http://localhost:3000/api/teachers', {
                 _id: credentials._id,
-                teahcerName: credentials.teacherName,
+                teacherName: credentials.teacherName,
                 email: credentials.email,
                 password: credentials.password,
                 // level: credentials.level,
@@ -73,11 +73,11 @@ const editTeacherForm = (props) => {
             console.log(response)
             if (response.data.success) {
                 console.log(response)
-                router.replace('/users/userList')
+                router.replace('/teachers/teachersList')
             }
             else setError(true)
 
-        }
+        // }
     }
     // useEffect(() => {
     //     fetch('http://localhost:3000/api/userList')
@@ -96,7 +96,7 @@ const editTeacherForm = (props) => {
                 "Content-Type": "application/json",
             },
             method: 'POST',
-            body: JSON.stringify({ studentId: props.email })
+            body: JSON.stringify({ email: props.email })
         })
             .then((response) => response.json())
             .then((res) => setCredentials(res.data))
@@ -127,17 +127,17 @@ const editTeacherForm = (props) => {
                         <h2 style={{ color: '#5c0931' }}>{props.title}</h2>
                     </Grid>
                     <Grid item>
-                        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={updateUser}>
+                        <Formik initialValues={initialValues} onSubmit={updateUser}>
                             {({ props, errors, touched }) => (
                                 <Form >
                                     <Stack gap="1rem">
 
                                         <Field autoComplete='off' as={TextField} label='Name' name="name"
-                                            placeholder='Enter Name' fullWidth required value={credentials.studentName}
+                                            placeholder='Enter Name' fullWidth required value={credentials.teacherName}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
                                                     ...prev,
-                                                    studentName: e.target.value
+                                                    teacherName: e.target.value
                                                 }));
                                             }}
                                             helperText={<ErrorMessage name="name" />} >
@@ -146,11 +146,11 @@ const editTeacherForm = (props) => {
                                             ) : null} */}
                                         </Field>
                                         <Field autoComplete='off' as={TextField} label='Email' name="email"
-                                            placeholder='Enter email' fullWidth required value={credentials.studentId}
+                                            placeholder='Enter email' fullWidth required value={credentials.email}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
                                                     ...prev,
-                                                    studentId: e.target.value
+                                                    email: e.target.value
                                                 }));
                                             }}
 

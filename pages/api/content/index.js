@@ -16,7 +16,7 @@ connect();
 // });
 const content = async (req, res) => {
     const { method } = req;
-
+    const {id} = req.query;
     switch(method) {
         case 'GET':
             try{

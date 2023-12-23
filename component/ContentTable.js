@@ -194,6 +194,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Grid } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import axios from 'axios'
+import Stack from '@mui/material';
 import { useEffect } from 'react';
 import Link from 'next/link'
 // import Button from '@mui/material-next/Button';
@@ -222,14 +223,30 @@ export default function ContentTable() {
       setActive('active')
     }
   }
-
-  useEffect(() => {
-   async function getData(){
+  const deleteTeacher = async (id) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/api/content/editAudio?id=${id}`);
       
-      await fetch('http://localhost:3000/api/content')
-      .then((response) => response.json())
-      .then((data) => setValue(data))
+      if (response.data.success) {
+        console.log(`Teacher with studentId ${id} deleted successfully.`);
+        getData();
+        
+
+      } else {
+        console.error('Delete request failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error during delete request:', error.message);
     }
+  };
+  async function getData(){
+      
+    await fetch('http://localhost:3000/api/content')
+    .then((response) => response.json())
+    .then((data) => setValue(data))
+  }
+  useEffect(() => {
+
     getData();
   }, []);
 
@@ -258,6 +275,8 @@ export default function ContentTable() {
                 <TableCell align="left"><b>Teacher</b></TableCell>
                 <TableCell align="left"><b>Level</b></TableCell>
                 <TableCell align="center"><b>Date</b></TableCell>
+                <TableCell align="center"><b>Options</b></TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
@@ -288,6 +307,14 @@ export default function ContentTable() {
                     <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                       {curElem.date.substring(0, 10)}
                     </TableCell>
+                    <TableCell align="left" sx={{ fontFamily: "inherit" }}>
+                        {/* <Stack flexDirection='row'> */}
+                          <Button onClick={() => deleteTeacher(curElem._id)}>
+                            <DeleteIcon sx={{ color: '#5c0931' }} />
+                          </Button>
+                        {/* </Stack> */}
+                      </TableCell>
+                    
                   </TableRow>
                 )
 

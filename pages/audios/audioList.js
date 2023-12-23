@@ -31,7 +31,7 @@ export default function BasicTable() {
       if (response.data.success) {
         console.log(`Teacher with studentId ${id} deleted successfully.`);
         getData();
-
+        
 
       } else {
         console.error('Delete request failed:', response.data.message);
@@ -130,7 +130,6 @@ export default function BasicTable() {
                           </Button>
                         </Stack>
                       </TableCell>
-                      
                     </TableRow>
                   );
                 })}

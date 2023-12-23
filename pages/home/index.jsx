@@ -36,6 +36,7 @@ import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlin
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import Cookies from 'js-cookie';
+import AudiotrackOutlinedIcon from '@mui/icons-material/AudiotrackOutlined';
 
 const drawerWidth = 240;
 
@@ -377,7 +378,58 @@ export default function MiniDrawer() {
         <Divider />
         </>
         ) : null}
-        
+                {userRole === 'teacher' ? (
+<>
+        <List
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+            </ListSubheader>
+
+          }
+        >
+
+          <ListItem key="Audios" disablePadding sx={{ display: 'block' }} >
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+              onClick={handleCollapeOpento}
+            >
+              <ListItemIcon
+                onClick={handleDrawerOpen}
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+
+                <AudiotrackOutlinedIcon sx={{ color: '#5c0931' }} />
+
+              </ListItemIcon>
+              <ListItemText primary="Audios" sx={{ opacity: open ? 1 : 0 }} />
+
+            </ListItemButton>
+            <Collapse in={opencol} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+
+                <ListItemButton sx={{ pl: 4 }} href='/teachers/teachersList'>
+                  <ListItemIcon>
+                    <ClearAllOutlinedIcon sx={{ color: '#5c0931' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Audio List" />
+                </ListItemButton>
+
+              </List>
+            </Collapse>
+          </ListItem>
+
+        </List>
+        <Divider />
+        </>
+        ) : null}
         <List
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">

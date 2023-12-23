@@ -38,7 +38,22 @@ export default function BasicTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
- 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/api/userList/deleteUser?id=${id}`);
+      
+      if (response.data.success) {
+        console.log(`Teacher with studentId ${id} deleted successfully.`);
+         getData();
+        // window.location.reload();
+
+      } else {
+        console.error('Delete request failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error during delete request:', error.message);
+    }
+  };
   async function getData() {
     await fetch('http://localhost:3000/api/userList')
       .then((response) => response.json())
@@ -105,6 +120,15 @@ export default function BasicTable() {
                             <EditIcon sx={{ color: '#5c0931' }} />
                           </Button>
                         </Stack>
+                        
+                      </TableCell>
+                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>
+                        <Stack flexDirection='row'>
+                          <Button onClick={() => handleDelete(curElem._id)}>
+                            <DeleteIcon sx={{ color: '#5c0931' }} />
+                          </Button>
+                        </Stack>
+                        
                       </TableCell>
                     </TableRow>
                   );

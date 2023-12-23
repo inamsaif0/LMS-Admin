@@ -62,7 +62,7 @@ const editTeacherForm = (props) => {
 
     const updateUser = async () => {
         // if (validationSchema) {
-            const response = await axios.put('http://localhost:3000/api/teachers', {
+            const response = await axios.put('http://localhost:3000/api/teachers/editTeacher', {
                 _id: credentials._id,
                 teacherName: credentials.teacherName,
                 email: credentials.email,

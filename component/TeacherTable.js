@@ -24,6 +24,23 @@ export default function BasicTable() {
   const handleEdit = (additionalProp) => {
     router.push(`/teachers/editTeacher?additionalProp=${additionalProp}`);
   }
+  const deleteTeacher = async (id) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/api/teachers/deleteTeacher?id=${id}`);
+      
+      if (response.data.success) {
+        console.log(`Teacher with studentId ${id} deleted successfully.`);
+        getData();
+
+
+      } else {
+        console.error('Delete request failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error during delete request:', error.message);
+    }
+  };
+  
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -103,6 +120,13 @@ export default function BasicTable() {
                         <Stack flexDirection='row'>
                           <Button onClick={() => handleEdit(curElem.email)}>
                             <EditIcon sx={{ color: '#5c0931' }} />
+                          </Button>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align="left" sx={{ fontFamily: "inherit" }}>
+                        <Stack flexDirection='row'>
+                          <Button onClick={() => deleteTeacher(curElem._id)}>
+                            <DeleteIcon sx={{ color: '#5c0931' }} />
                           </Button>
                         </Stack>
                       </TableCell>

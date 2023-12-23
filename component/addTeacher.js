@@ -75,7 +75,7 @@ const CreateUserForm = (props) => {
 
 
         const response = await axios.post('http://localhost:3000/api/teachers', {
-          studentName: values.name,
+          teacherName: values.name,
           email: values.email,
           password: values.password
         })
@@ -89,7 +89,7 @@ const CreateUserForm = (props) => {
         if (response)
             if (response.data.success) {
                 console.log(response)
-                router.replace('/users/userList')
+                router.replace('/teachers/teachersList')
             }
             else setError(true)
 

@@ -62,20 +62,20 @@ const EditUser = (props) => {
 
     const updateUser = async () => {
         // if (validationSchema) {
-            const response = await axios.put('http://localhost:3000/api/userList', {
-                _id: credentials._id,
-                studentName: credentials.studentName,
-                studentId: credentials.studentId,
-                password: credentials.password,
-                level: credentials.level,
-                status: true
-            })
+        const response = await axios.put('http://localhost:3000/api/userList', {
+            _id: credentials._id,
+            studentName: credentials.studentName,
+            studentId: credentials.studentId,
+            password: credentials.password,
+            level: credentials.level,
+            status: true
+        })
+        console.log(response)
+        if (response.data.success) {
             console.log(response)
-            if (response.data.success) {
-                console.log(response)
-                router.replace('/users/userList')
-            }
-            else setError(true)
+            router.replace('/users/userList')
+        }
+        else setError(true)
 
         // }
     }
@@ -109,7 +109,7 @@ const EditUser = (props) => {
                 .then((response) => response.json())
                 .then((data) => setValue(data))
         }
-        // getCreds();   
+        // getCreds();      
         getLevels();
 
     }, []);
@@ -127,25 +127,34 @@ const EditUser = (props) => {
                         <h2 style={{ color: '#5c0931' }}>{props.title}</h2>
                     </Grid>
                     <Grid item>
-                        <Formik initialValues={initialValues}  onSubmit={updateUser}>
+                        <Formik initialValues={initialValues} onSubmit={updateUser}>
                             {({ props, errors, touched }) => (
                                 <Form >
                                     <Stack gap="1rem">
 
-                                        <Field autoComplete='off' as={TextField} label='Name' name="name"
-                                            placeholder='Enter Name' fullWidth required value={credentials.studentName}
+                                        <Field
+                                            autoComplete='off'
+                                            as={TextField}
+                                            // label='Name'
+                                            name="name"
+                                            placeholder={credentials.studentName ? '' : 'Enter Name'}
+                                            fullWidth
+                                            required
+                                            value={credentials.studentName}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
                                                     ...prev,
                                                     studentName: e.target.value
                                                 }));
                                             }}
-                                            helperText={<ErrorMessage name="name" />} >
+                                            helperText={<ErrorMessage name="name" />}
+                                        >
                                             {/* {errors.firstName && touched.firstName ? (
-                                                <div>{errors.firstName}</div>
-                                            ) : null} */}
+        <div>{errors.firstName}</div>
+    ) : null} */}
                                         </Field>
-                                        <Field autoComplete='off' as={TextField} label='Email' name="email"
+
+                                        <Field autoComplete='off' as={TextField} name="email"
                                             placeholder='Enter email' fullWidth required value={credentials.studentId}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
@@ -161,7 +170,7 @@ const EditUser = (props) => {
                                         // ) : null */}
                                         </Field>
 
-                                        <Field autoComplete='off' as={TextField} label='Password' name="password"
+                                        <Field autoComplete='off' as={TextField}  name="password"
                                             placeholder='Enter password' type='password' fullWidth required value={credentials.password}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
@@ -186,7 +195,7 @@ const EditUser = (props) => {
                                                 }));
                                             }}
                                             renderInput={(params) => (
-                                                <TextField className="autoCompleteTxt" {...params} label="Level" />
+                                                <TextField className="autoCompleteTxt" {...params} />
                                             )}
                                         />
                                         }

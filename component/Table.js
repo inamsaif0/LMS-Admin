@@ -93,7 +93,9 @@ export default function BasicTable() {
                 <TableCell align="left"><b>StudentID&nbsp;(email)</b></TableCell>
                 <TableCell align="left"><b>Level</b></TableCell>
                 <TableCell align="center"><b>Status</b></TableCell>
-                <TableCell align="center"><b>Options</b></TableCell>
+                <TableCell align="center"><b>Edit</b></TableCell>
+                <TableCell align="center"><b>Delete</b></TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>

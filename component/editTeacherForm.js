@@ -132,7 +132,7 @@ const editTeacherForm = (props) => {
                                 <Form >
                                     <Stack gap="1rem">
 
-                                        <Field autoComplete='off' as={TextField} label='Name' name="name"
+                                        <Field autoComplete='off' as={TextField}  name="name"
                                             placeholder='Enter Name' fullWidth required value={credentials.teacherName}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
@@ -145,7 +145,7 @@ const editTeacherForm = (props) => {
                                                 <div>{errors.firstName}</div>
                                             ) : null} */}
                                         </Field>
-                                        <Field autoComplete='off' as={TextField} label='Email' name="email"
+                                        <Field autoComplete='off' as={TextField}  name="email"
                                             placeholder='Enter email' fullWidth required value={credentials.email}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({
@@ -161,7 +161,7 @@ const editTeacherForm = (props) => {
                                         // ) : null */}
                                         </Field>
 
-                                        <Field autoComplete='off' as={TextField} label='Password' name="password"
+                                        <Field autoComplete='off' as={TextField}  name="password"
                                             placeholder='Enter password' type='password' fullWidth required value={credentials.password}
                                             onChange={(e) => {
                                                 setCredentials((prev) => ({

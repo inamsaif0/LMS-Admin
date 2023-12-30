@@ -169,7 +169,7 @@ export default function BasicTable() {
                       </TableCell> */}
                                             <TableCell align="left" sx={{ fontFamily: 'inherit' }}>
                                                 <Stack flexDirection="row" justifyContent="center">
-                                                    {curElem.status ? curElem.status :
+                                                    {curElem.status ? <b>{curElem.status}</b> :
                                                         <>
                                                             <Button onClick={()=>handleUpdateStatus(curElem._id, status = "Rejected")}>
                                                                 <CancelIcon sx={{ color: '#5c0931' }} />

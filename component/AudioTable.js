@@ -23,21 +23,32 @@ import CancelIcon from '@mui/icons-material/Cancel';
 export default function BasicTable() {
 
     const router = useRouter()
+    async function getData() {
+        const email = Cookies.get('userEmail');
+
+        await fetch(`http://localhost:3000/api/audio/getAudio?email=${email}`)
+            .then((response) => response.json())
+            .then((data) => setValue(data))
+    }
 
     // const handleEdit = (additionalProp) => {
     //     router.push(`/teachers/editTeacher?additionalProp=${additionalProp}`);
     // }
-    const deleteTeacher = async (id) => {
+    const deleteAudio = async (id) => {
+        // console.log(id, 'sssss')
         try {
-            const response = await axios.post(`http://localhost:3000/api/teachers/deleteTeacher?id=${id}`);
-
+            const response = await axios.post(`http://localhost:3000/api/audio/deleteAudio`, {
+                id: id
+            });
+            getData();
             if (response.data.success) {
-                console.log(`Teacher with studentId ${id} deleted successfully.`);
-                getData();
+                // getData();
+                console.log(`Audio with studentId ${id} deleted successfully.`);
+                
 
 
             } else {
-                console.error('Delete request failed:', response.data.message);
+                console.error('Audio request failed:', response.data.message);
             }
         } catch (error) {
             console.error('Error during delete request:', error.message);
@@ -184,7 +195,9 @@ export default function BasicTable() {
                                             </TableCell>
                                             <TableCell align="left" sx={{ fontFamily: 'inherit' }}>
                                                 <Stack flexDirection="row" justifyContent="center">
-                                                    <Button>
+                                                    <Button onClick={()=> {
+                                                        deleteAudio(curElem._id)
+                                                    }}>
                                                         <DeleteIcon sx={{ color: '#5c0931' }} />
                                                     </Button>
                                                 </Stack>

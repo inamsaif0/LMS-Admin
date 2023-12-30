@@ -57,6 +57,8 @@ const Login = ({ handleChange }) => {
         
         if(response.data.success) {
             Cookies.set('userRole', response.data.data.role, { expires: 1 });
+            Cookies.set('userEmail', response.data.data.email, { expires: 1 });
+
             console.log(response.data.data.role)
             router.replace('/Dashboard')
         } 

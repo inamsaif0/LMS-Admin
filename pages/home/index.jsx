@@ -415,7 +415,7 @@ export default function MiniDrawer() {
             <Collapse in={opencol} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
 
-                <ListItemButton sx={{ pl: 4 }} href='/teachers/teachersList'>
+                <ListItemButton sx={{ pl: 4 }} href='/audios/audioList'>
                   <ListItemIcon>
                     <ClearAllOutlinedIcon sx={{ color: '#5c0931' }} />
                   </ListItemIcon>

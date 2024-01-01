@@ -19,14 +19,14 @@ export default function UserList() {
                     flexWrap: 'wrap'
                 }}>
                 <Stack alignItems='center' justifyContent="center"><Typography variant='h4' sx={{ color: '#5c0931' }}><b>USERS LIST</b></Typography></Stack>
-                <Stack direction={'column'} alignItems='center' justifyContent='center' sx={{ flexWrap: 'wrap' , marginLeft:'auto'}}>
+                <Stack direction={'column'} alignItems='center' justifyContent='center' sx={{ flexWrap: 'wrap', marginLeft: 'auto' }}>
 
-                        {/* <Button onClick={handleOpen} sx={{width:'150px',height:'50px'}}>Add New</Button> */}
-                        <Button
-                            href='/users/createUser'
-                            style={{ background: '#5c0931', color: '#FFFFFF', width: '150px', height: '50px' }}
-                        >Add New</Button>
-                    </Stack>
+                    {/* <Button onClick={handleOpen} sx={{width:'150px',height:'50px'}}>Add New</Button> */}
+                    <Button
+                        href='/users/createUser'
+                        style={{ background: '#5c0931', color: '#FFFFFF', width: '150px', height: '50px' }}
+                    >Add New</Button>
+                </Stack>
 
                 <Stack><BasicTable /></Stack>
 

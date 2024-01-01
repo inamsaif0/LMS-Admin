@@ -275,7 +275,7 @@ export default function ContentTable() {
                 <TableCell align="left"><b>Teacher</b></TableCell>
                 <TableCell align="left"><b>Level</b></TableCell>
                 <TableCell align="center"><b>Date</b></TableCell>
-                <TableCell align="center"><b>Edit</b></TableCell>
+               
                 <TableCell align="center"><b>Delete</b></TableCell>
 
 

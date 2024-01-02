@@ -62,7 +62,7 @@ const EditUser = (props) => {
 
     const updateUser = async () => {
         // if (validationSchema) {
-        const response = await axios.put('http://localhost:3000/api/userList', {
+        const response = await axios.put('/api/userList', {
             _id: credentials._id,
             studentName: credentials.studentName,
             studentId: credentials.studentId,
@@ -80,7 +80,7 @@ const EditUser = (props) => {
         // }
     }
     // useEffect(() => {
-    //     fetch('http://localhost:3000/api/userList')
+    //     fetch('/api/userList')
     //         .then((response) => response.json())
     //         .then((data) => setValue(data))
     // }, []);
@@ -91,7 +91,7 @@ const EditUser = (props) => {
     async function getCreds() {
 
         console.log(props.email + " Props email")
-        await fetch('http://localhost:3000/api/getCredentials', {
+        await fetch('/api/getCredentials', {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -105,7 +105,7 @@ const EditUser = (props) => {
     useEffect(() => {
         async function getLevels() {
 
-            await fetch('http://localhost:3000/api/levels')
+            await fetch('/api/levels')
                 .then((response) => response.json())
                 .then((data) => setValue(data))
         }

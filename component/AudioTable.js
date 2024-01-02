@@ -26,7 +26,7 @@ export default function BasicTable() {
     async function getData() {
         const email = Cookies.get('userEmail');
 
-        await fetch(`http://localhost:3000/api/audio/getAudio?email=${email}`)
+        await fetch(`/api/audio/getAudio?email=${email}`)
             .then((response) => response.json())
             .then((data) => setValue(data))
     }
@@ -37,7 +37,7 @@ export default function BasicTable() {
     const deleteAudio = async (id) => {
         // console.log(id, 'sssss')
         try {
-            const response = await axios.post(`http://localhost:3000/api/audio/deleteAudio`, {
+            const response = await axios.post(`/api/audio/deleteAudio`, {
                 id: id
             });
             getData();
@@ -77,14 +77,14 @@ export default function BasicTable() {
     async function getData() {
         const email = Cookies.get('userEmail');
 
-        await fetch(`http://localhost:3000/api/audio/getAudio?email=${email}`)
+        await fetch(`/api/audio/getAudio?email=${email}`)
             .then((response) => response.json())
             .then((data) => setValue(data))
     }
 
     async function handleActive(index) {
         console.log(value.data[index])
-        const response = await axios.post('http://localhost:3000/api/active', {
+        const response = await axios.post('/api/active', {
             status: !(value.data[index].status),
             studentId: value.data[index].studentId
         }).then({
@@ -97,8 +97,8 @@ export default function BasicTable() {
         //   setMessage('Rejected');
 
         try {
-            // Replace 'http://localhost:3000' with your actual backend URL
-            const response = await axios.post('http://localhost:3000/api/audio/editAudio', {
+            // Replace '' with your actual backend URL
+            const response = await axios.post('/api/audio/editAudio', {
                 _id: id,
                 status: status
             });
@@ -227,7 +227,7 @@ export default function BasicTable() {
 }
 // BasicTable.getInitialProps = async ctx => {
 //   try {
-//     const res = await axios.get('http://localhost:3000/api/userList');
+//     const res = await axios.get('/api/userList');
 //     console.log(res.data)
 //     const data = res.data;
 //     return { data };

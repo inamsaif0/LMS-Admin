@@ -40,7 +40,7 @@ export default function BasicTable() {
   };
   const handleDelete = async (id) => {
     try {
-      const response = await axios.post(`http://localhost:3000/api/userList/deleteUser?id=${id}`);
+      const response = await axios.post(`/api/userList/deleteUser?id=${id}`);
       
       if (response.data.success) {
         console.log(`Teacher with studentId ${id} deleted successfully.`);
@@ -55,14 +55,14 @@ export default function BasicTable() {
     }
   };
   async function getData() {
-    await fetch('http://localhost:3000/api/userList')
+    await fetch('/api/userList')
       .then((response) => response.json())
       .then((data) => setValue(data))
   }
 
   async function handleActive(index) {
     console.log(value.data[index])
-    const response = await axios.post('http://localhost:3000/api/active', {
+    const response = await axios.post('/api/active', {
       status: !(value.data[index].status),
       studentId: value.data[index].studentId
     }).then({
@@ -157,7 +157,7 @@ export default function BasicTable() {
 }
 // BasicTable.getInitialProps = async ctx => {
 //   try {
-//     const res = await axios.get('http://localhost:3000/api/userList');
+//     const res = await axios.get('/api/userList');
 //     console.log(res.data)
 //     const data = res.data;
 //     return { data };

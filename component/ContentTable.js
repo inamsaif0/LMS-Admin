@@ -94,7 +94,7 @@
 //     setPage(0);
 //   };
 //   useEffect(() => {
-//     fetch('http://localhost:3000/api/content')
+//     fetch('/api/content')
 //       .then((response) => response.json())
 //       .then((data) => setValue(data))
 //   }, []);
@@ -225,7 +225,7 @@ export default function ContentTable() {
   }
   const deleteTeacher = async (id) => {
     try {
-      const response = await axios.post(`http://localhost:3000/api/content/editAudio?id=${id}`);
+      const response = await axios.post(`/api/content/editAudio?id=${id}`);
       
       if (response.data.success) {
         console.log(`Teacher with studentId ${id} deleted successfully.`);
@@ -241,7 +241,7 @@ export default function ContentTable() {
   };
   async function getData(){
       
-    await fetch('http://localhost:3000/api/content')
+    await fetch('/api/content')
     .then((response) => response.json())
     .then((data) => setValue(data))
   }
@@ -340,7 +340,7 @@ export default function ContentTable() {
 }
 // BasicTable.getInitialProps = async ctx => {
 //   try {
-//     const res = await axios.get('http://localhost:3000/api/userList');
+//     const res = await axios.get('/api/userList');
 //     console.log(res.data)
 //     const data = res.data;
 //     return { data };

@@ -50,7 +50,7 @@ const CreateUserForm = async (props) => {
     }
     const AddingFiles = async () => {}
 
-        const response = await axios.post('http://localhost:3000/api/content', {
+        const response = await axios.post('/api/content', {
             teacher: teacher.teacher,
             student: student.student,
             level: level.level,
@@ -68,7 +68,7 @@ const CreateUserForm = async (props) => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/content')
+        fetch('/api/content')
             .then((response) => response.json())
             .then((data) => setValue(data))
     }, []);

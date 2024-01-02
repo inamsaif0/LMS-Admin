@@ -191,7 +191,7 @@ export default function MiniDrawer() {
   };
 
   const logout = async () => {
-    const response = await axios.get('http://localhost:3000/api/logout')
+    const response = await axios.get('/api/logout')
     if (response.data.success) router.push('/')
   }
 

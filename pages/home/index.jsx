@@ -378,8 +378,8 @@ export default function MiniDrawer() {
         <Divider />
         </>
         ) : null}
-                {userRole === 'teacher' ? (
-<>
+
+
         <List
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">
@@ -428,8 +428,7 @@ export default function MiniDrawer() {
 
         </List>
         <Divider />
-        </>
-        ) : null}
+        
         <List
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">

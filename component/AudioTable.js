@@ -213,7 +213,7 @@ export default function BasicTable() {
                 <TablePagination
                     rowsPerPageOptions={[5, 25, 100]}
                     component="div"
-                    count={value && value.data ? value.data.length : 0}
+                    count={value && value.result ? value.result.length : 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

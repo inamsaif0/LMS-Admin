@@ -57,14 +57,14 @@ export default function BasicTable() {
   };
  
   async function getData() {
-    await fetch(' /api/teachers')
+    await fetch('/api/teachers')
       .then((response) => response.json())
       .then((data) => setValue(data))
   }
 
   async function handleActive(index) {
     console.log(value.data[index])
-    const response = await axios.post(' /api/active', {
+    const response = await axios.post('/api/active', {
       status: !(value.data[index].status),
       studentId: value.data[index].studentId
     }).then({

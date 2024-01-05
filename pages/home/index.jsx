@@ -132,6 +132,7 @@ export default function MiniDrawer() {
   const [opencol, setOpencol] = React.useState(false);
   const [colopen, setColopen] = React.useState(false);
   const [col, setCol] = React.useState(false);
+  const [openColAudio, setOpenColAudio] = React.useState(false);
   const [userRole, setUserRole] = useState(null);
 
 
@@ -171,6 +172,15 @@ export default function MiniDrawer() {
   
     else{
     setOpencol(false)}
+  }
+  const handleCollapeOpentoAudio = async () => {
+    if (openColAudio == false){
+     
+    setOpenColAudio(true);
+  }
+  
+    else{
+    setOpenColAudio(false)}
   }
   const handleOtherCollapeOpen = () => {
     if (col == false)
@@ -395,7 +405,7 @@ export default function MiniDrawer() {
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
               }}
-              onClick={handleCollapeOpento}
+              onClick={handleCollapeOpentoAudio}
             >
               <ListItemIcon
                 onClick={handleDrawerOpen}
@@ -412,7 +422,7 @@ export default function MiniDrawer() {
               <ListItemText primary="Audios" sx={{ opacity: open ? 1 : 0 }} />
 
             </ListItemButton>
-            <Collapse in={opencol} timeout="auto" unmountOnExit>
+            <Collapse in={openColAudio} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
 
                 <ListItemButton sx={{ pl: 4 }} href='/audios/audioList'>

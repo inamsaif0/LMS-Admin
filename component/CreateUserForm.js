@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 
 const CreateUserForm = (props) => {
 
@@ -156,6 +157,8 @@ const CreateUserForm = (props) => {
                       onChange={handleChange}
                       helperText={<ErrorMessage name="password" />}
                     />
+                      <InputLabel id="demo-simple-select-label">Level</InputLabel>
+
                     <Field
                       as={Select}
                       name="level"

@@ -185,7 +185,7 @@ export default function BasicTable() {
                                                 <TableCell align="left" sx={{ fontFamily: "inherit" }}>
                                                     <a style={{ color: '#5c0931' }} href={curElem.audioLink}>
                                                         {/* {curElem.filename} */}
-                                                        Audio
+                                                        {curElem.name}
                                                     </a>
                                                 </TableCell>
                                                 <TableCell align="left" sx={{ fontFamily: 'inherit' }}>{curElem.teacherEmail}</TableCell>

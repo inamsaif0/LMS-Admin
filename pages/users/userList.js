@@ -14,7 +14,7 @@ export default function UserList() {
             <Stack  alignItems='center' justifyContent='center' gap='2rem'
                 sx={{
                     mt: { lg: '10rem', sm: '3rem', md: '2rem' },
-                    ml: { lg: '1rem', md: '1rem', sm: '1rem' },
+                    ml: { lg: '6rem', md: '1rem', sm: '1rem' },
                     mb: { lg: '2rem', md: '1rem', sm: '1rem' },
                 }}>
                 <Stack alignItems='center' justifyContent="center"><Typography variant='h4' sx={{ color: '#5c0931' }}><b>USERS LIST</b></Typography></Stack>

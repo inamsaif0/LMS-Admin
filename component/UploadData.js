@@ -12,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { uploadFileToS3 } from '../pages/api/content/bucket';
+import ConvertApi from 'convertapi-js'
 
 
 
@@ -68,11 +69,41 @@ const CreateUserForm = (props) => {
     //FUNCTION TO LOGIN
 
     const AddingFiles = async (props) => {
-        if(formats.includes(file.name.split('.').pop())){
+        let convertApi = ConvertApi.auth('gmfqqrnzuensA6GY')
 
+        console.log('this is file',file)
+        if(formats.includes(file.name.split('.').pop())){
 
             const bucketName = 'otp-mobile';
             const key = 'otp-docs/';
+            if (file.name.endsWith('.docx')) {
+                let params = convertApi.createParams()
+                params.add('file', file)
+                let result = await convertApi.convert('docx', 'pdf', params)
+                let url = result.files[0].Url
+                let name = result.files[0].name
+
+                console.log(url,name, 'helloooooooooooooooooo')
+                // const location = await uploadFileToS3(url, bucketName, key);
+                console.log(location)
+                
+                const response = await axios.post('/api/content', {
+                    filename: file.name,
+                    student: student.studentName,
+                    teacher: teacher.teacherName,
+                    level: level.level,
+                    date: new Date(),
+                    fileUrl:url
+                })
+                console.log(response)
+                if (response.data.success) {
+                    console.log(response)
+                    router.replace('/content/contentList')
+                }
+                else setError(true)
+            }
+            else{
+
             const location = await uploadFileToS3(file, bucketName, key);
             console.log(location)
             
@@ -90,7 +121,7 @@ const CreateUserForm = (props) => {
                 router.replace('/content/contentList')
             }
             else setError(true)
-            
+        }
         }
         else{
             setCheckType(true);

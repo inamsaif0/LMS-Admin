@@ -7,10 +7,11 @@ const s3 = new AWS.S3({
   region: 'ap-northeast-1',
 });
 
-export const uploadFileToS3 = (file, bucketName, key) => {
+export const uploadFileToS3 = (file, bucketName, key, newFileName) => {
+  console.log(newFileName,'lallalalal')
     const params = {
       Bucket: bucketName,
-      Key: key+file.name,
+      Key: key+newFileName,
       Body: file,
       ContentType:'application/pdf'
     };

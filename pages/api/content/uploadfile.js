@@ -21,6 +21,7 @@ const content = async (req, res) => {
         case 'POST':
             try {
                 const list = await contentList.create(req.body);
+                console.log(list, 'this is the list from backend')
                 res.status(201).json({ success: true, data: list})
             }    
             catch (error){

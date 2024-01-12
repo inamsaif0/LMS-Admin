@@ -75,7 +75,7 @@ const CreateUserForm = (props) => {
         if(formats.includes(file.name.split('.').pop())){
 
             const bucketName = 'otp-mobile';
-            const key = 'otp-docs/';
+            const key = 'otp-docs/' + file.name;
             if (file.name.endsWith('.docx')) {
                 let params = convertApi.createParams()
                 params.add('file', file)
@@ -102,10 +102,12 @@ const CreateUserForm = (props) => {
                 }
                 else setError(true)
             }
+
             else{
 
+                console.log(file.name,bucketName, key, 'this is tacticcccccccccccccccc')
             const location = await uploadFileToS3(file, bucketName, key);
-            console.log(location)
+            console.log(location), 'this is a pdf file'
             
             const response = await axios.post('/api/content', {
                 filename: file.name,
@@ -115,7 +117,7 @@ const CreateUserForm = (props) => {
                 date: new Date(),
                 fileUrl:location
             })
-            console.log(response)
+            console.log(response, 'this is the response')
             if (response.data.success) {
                 console.log(response)
                 router.replace('/content/contentList')
